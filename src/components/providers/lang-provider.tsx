@@ -61,18 +61,22 @@ export function LanguageProvider({
     })
   }, [locale, fallbackLocale, translations])
 
+  const value = useMemo(() => {
+    return {
+      ...initRes,
+      setLocale: (locale: LocaleName) => {
+        setCurrentLocale(locale)
+        setLangCookie(locale)
+      },
+      locale,
+      userLocale: navigator.language.replace("-", "_").toLowerCase() as LocaleName,
+      isRtl
+    }
+  }, [locale, isRtl, initRes])
+
   return (
     <TranslationContext.Provider
-      value={{
-        ...initRes,
-        setLocale: (locale) => {
-          setCurrentLocale(locale)
-          setLangCookie(locale)
-        },
-        locale,
-        userLocale: navigator.language.replace("-", "_").toLowerCase() as LocaleName,
-        isRtl
-      }}
+      value={value}
     >
       {children}
     </TranslationContext.Provider>

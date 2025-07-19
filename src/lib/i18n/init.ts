@@ -160,7 +160,7 @@ function getTranslation<S extends DotPathsFor, A extends Params<S>>(
   args?: A
 ) {
   const translation = getTranslationByKey(translations, key)
-  const argObj = args || {}
+  const argObj = args ?? {}
   try {
     if (typeof translation === "string") {
       return performSubstitution(locale, translation, argObj, {})
@@ -210,7 +210,7 @@ function performSubstitution(
 ): string {
   return Object.entries(args).reduce((result, [argKey, argValue]) => {
     const match = result.match(`{${argKey}:?([^}]*)?}`)
-    const [replaceKey, argType] = match ? match : [`{${argKey}}`, undefined]
+    const [replaceKey, argType] = match ?? [`{${argKey}}`, undefined]
 
     switch (argType) {
       case "plural": {

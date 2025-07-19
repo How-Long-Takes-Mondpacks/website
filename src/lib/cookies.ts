@@ -157,7 +157,7 @@ export function hasMadeCookieChoice(): boolean {
   try {
     const storedPreferences = localStorage.getItem(COOKIE_PREFERENCES_KEY)
     return !!storedPreferences
-  } catch (error) {
+  } catch (ignored) {
     return false
   }
 }
@@ -167,7 +167,7 @@ export function havePreferencesExpired(): boolean {
   try {
     const preferences = getCookiePreferences()
     return preferences.expiresAt < Date.now()
-  } catch (error) {
+  } catch (ignored) {
     return true
   }
 }

@@ -1,6 +1,6 @@
 "use client"
 
-import { createContext, useContext, useState, type ReactNode } from "react"
+import { createContext, useContext, useMemo, useState, type ReactNode } from "react"
 import { ToasterProps } from "sonner"
 
 type ToastPosition = ToasterProps['position']
@@ -16,8 +16,8 @@ const SettingsContext = createContext<SettingsContextType | undefined>(undefined
 export function SettingsProvider({ children }: { children: ReactNode }) {
   const [toastPosition, setToastPosition] = useState<ToastPosition>('bottom-right')
 
-  return (
-    <SettingsContext.Provider value={{
+  const value = useMemo(() => {
+    return {
       toastPosition,
       setToastPosition,
       toastPositions: [
@@ -27,8 +27,12 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
         'top-center',
         'top-left',
         'top-right'
-      ]
-    }}>
+      ] as ToastPosition[]
+    }
+  }, [toastPosition, setToastPosition])
+
+  return (
+    <SettingsContext.Provider value={value}>
       {children}
     </SettingsContext.Provider>
   )
